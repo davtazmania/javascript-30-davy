@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS + CSS Clock</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+
+    <div class="clock">
+      <div class="clock-face">
+        <div class="hand hour-hand"></div>
+        <div class="hand min-hand"></div>
+        <div class="hand second-hand"></div>
+      </div>
+    </div>
+    <div class="digital-clock">
+        <span id="digital-clock-face"></span>
+    </div>
+
+    <div class="container">
+      <span class="digital-hours">00</span>
+      <span>:</span>
+      <span class="digital-minutes">00</span>
+      <span>:</span>
+      <span class="digital-seconds">00</span>
+      <span class="session">AM</span>
+
+    </div>
+
+  <style>
+    html {
+      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: align;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 30rem;
+      height: 30rem;
+      border: 20px solid white;
+      border-radius: 50%;
+      margin: 50px auto;
+      position: relative;
+      padding: 2rem;
+      box-shadow:
+        0 0 0 4px rgba(0,0,0,0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .container{
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+      font-size: 60px;    
+    }
+    
+
+    .clock-face {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px); /* account for the height of the clock hands */
+    }
+    
+
+    .hand {
+      width: 50%;
+      height: 6px;
+      position: absolute;
+      top: 50%;
+      transform-origin: bottom right;
+    rotate: 90deg;
+}
+.hour-hand{
+  background-color: black;
+}
+.min-hand{
+  background-color: red;
+}
+.second-hand{
+  background-color: yellow;
+}
+
+
+  </style>
+
+  <script>
+const time = new Date(); //récupérer la date actuel
+const hours = time.getHours(); //recupérer l'heure
+const minutes = time.getMinutes(); // recupérer les minutes 
+const seconds = time.getSeconds(); // récupérer les seconds 
+
+const hourHand = document.getElementsByClassName("hour-hand")[0]; 
+const minHand = document.getElementsByClassName("min-hand")[0];
+const secHand = document.getElementsByClassName("second-hand")[0];
+
+
+/* Récupérer tout les elements dans le document avant de crée une interaction avec l'horloge 
+dans le but d'appliquer du css*/
+
+hourHand.style.rotate = `${(360 / 12)*hours+90}deg`;
+minHand.style.rotate = `${(360 / 60)*minutes+90}deg`;
+secHand.style.rotate = `${(360 / 60)*seconds+90}deg`;
+
+setInterval (function () {
+  const actualTime = new Date();
+  const hours = actualTime.getHours();
+  const minutes = actualTime.getMinutes();
+  const seconds = actualTime.getSeconds();
+  const session = document.getElementsByClassName('session')[0];
+
+  const hourHand = document.getElementsByClassName("hour-hand")[0]; 
+  const minHand = document.getElementsByClassName("min-hand")[0];
+  const secHand = document.getElementsByClassName("second-hand")[0];
+  
+  //mise a jour de l'horloge analogique 
+  hourHand.style.rotate = `${(360 / 12)*hours+90}deg`;
+  minHand.style.rotate = `${(360 / 60)*minutes+90}deg`;
+  secHand.style.rotate = `${(360 / 60)*seconds+90}deg`;
+
+//Mise a jour de l'horloge numerique 
+// recuperer les elements de l'horloge digital dans le document.
+document.getElementsByClassName('digital-hours')[0].innerHTML = realTime(hours > 12 ? hours - 12 : hours);
+document.getElementsByClassName('digital-minutes')[0].innerHTML = realTime(minutes);
+document.getElementsByClassName('digital-seconds')[0].innerHTML = realTime(seconds);
+
+if(hours >= 12){
+  session.innerHTML = 'PM';
+}else{
+  session.innerHTML = 'AM';
+};
+ 
+function realTime(time){
+if(time < 10){
+  return `0${time}`
+}else{
+  return time
+}
+};
+
+// recuperer les elements de l'horloge digital dans le document. 
+} ,1000) ; 
+
+
+
+
+
+
+/* excecuter la date et l'actualisé a chaque seconde. cette fonction s'affiche apres que le temps sois 
+afficher une premiere fois a l ouverture de la page */ 
+
+
+
+  </script>
+</body>
+</html>
